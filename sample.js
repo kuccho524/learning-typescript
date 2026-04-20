@@ -8,3 +8,10 @@ console.log(user.userName);
 console.log(user.userEmail);
 console.log(user.userAge);
 console.log(user.name);
+
+function greet(name, age = 20) {
+  console.log(`こんにちは、${name}さん (${age}歳)`);
+}
+
+greet('tanaka', 30);
+greet('yamada');
