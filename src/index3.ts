@@ -105,3 +105,75 @@ const user4 = new User3('tanaka', 30);
 console.log(user4.greet());
 const admin = new AdminUser('sato', 35, 'システム管理者');
 console.log(admin.displayAdminInfo());
+
+// readonly修飾子
+class User4 {
+  readonly id: number;
+  name: string;
+
+  constructor(id: number, name: string) {
+    this.id = id;
+    this.name = name;
+  }
+}
+
+const user5 = new User4(1, 'tanaka');
+// user5.id = 2;
+
+// implements
+// クラスの設計を持つ
+// 設定や環境で実装が異なるケースに有効
+interface UserInterface {
+  name: string;
+  age: number;
+  greet(): string;
+}
+
+interface Savable {
+  save(): void;
+}
+
+class User6 implements UserInterface {
+  constructor(public name: string, public age: number) {}
+  greet():string {
+    return `こんにちは、${this.name} さん`;
+  }
+
+  save(): void {}
+}
+
+// 抽象クラス
+// abstract
+abstract class EmailSender {
+  constructor(protected from: string) {}
+
+  abstract send(
+    to: string,
+    subject: string,
+    body: string,
+  ): boolean;
+
+  validateEmail(email: string): boolean {
+    return email.includes('@');
+  }
+}
+
+class ConsoleEmailSender extends EmailSender {
+  constructor(from: string) {
+    super(from);
+  }
+
+  send(to: string, subject: string, body: string): boolean {
+    if (! this.validateEmail(to)) {
+      return false;
+    }
+    console.log('メール送信');
+    console.log(`From: ${this.from}, To: ${to}`)
+    console.log(`件名: ${subject}`);
+    console.log(`本文: ${body}`);
+    return true;
+  }
+}
+
+const mailer = new ConsoleEmailSender(`system@examilpe.com`);
+mailer.send('test@example', 'お知らせ', 'テストです');
